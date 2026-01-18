@@ -112,7 +112,7 @@ Repeat this process for every unread chat.
 After all unread chats are processed:
 - Close the Instagram app.
 
-Finally, Open the Instant app (com.gdg.instant) and clear the text area if anything is present and put the following output there: 
+Finally, Open the Instant app (com.gdg.instant) and click on the text area. Then, put the following output there: 
 - Number of chats processed
 - Number of messages replied to
 - Number of reels replied to
@@ -132,7 +132,13 @@ then, terminate.`;
         },
         body: JSON.stringify({
           task: prompt,
-          llmModel: 'google/gemini-2.5-flash',
+          llmModel: 'google/gemini-3-flash',
+          maxSteps: 1000,
+          executionTimeout: 1000,
+          temperature: 0.5,
+          reasoning: true,
+          vision: true,
+          apps: ["com.instagram.android", "com.gdg.instant"],
           deviceId,
         }),
         signal: abortRef.current.signal,
@@ -223,7 +229,7 @@ then, terminate.`;
           autoCapitalize="none"
         />
 
-        <Pressable style={styles.launchButton} onPress={saveSetup}>
+        <Pressable style={styles.continueButton} onPress={saveSetup}>
           <Ionicons name="checkmark" size={20} color="#fff" />
           <Text style={styles.launchText}>Continue</Text>
         </Pressable>
@@ -319,6 +325,16 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   launchButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2F80ED',
+    paddingVertical: 14,
+    borderRadius: 50,
+    gap: 10,
+    marginTop: -20,
+  },
+  continueButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
