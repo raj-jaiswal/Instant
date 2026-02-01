@@ -20,7 +20,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.gdg.instant"
+      "package": "com.gdg.instant",
+      "permissions": ["INTERNET"]
     },
     "web": {
       "output": "static",
