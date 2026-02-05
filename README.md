@@ -1,111 +1,257 @@
 # Instant
 
-Instant is a **mobile-first AI automation app** built with React Native
-and Expo that helps users manage unread conversations across
-**Instagram, WhatsApp, and LinkedIn** automatically. It uses
-**Mobilerun** (powered by **DroidRun**) to control real Android devices,
-read messages and media, generate context-aware replies, and write
-structured summaries back into the app.
+Instant is a **mobile-first AI automation application** built with
+**React Native and Expo** that helps users manage unread conversations
+across **Instagram, WhatsApp, and LinkedIn** automatically. It
+integrates with **Mobilerun**, powered internally by **DroidRun**, to
+control real Android devices, read messages and media, analyze context,
+and generate accurate, human-like replies.
 
-Unlike desktop-controlled automation tools, Instant is designed as a
-**fully mobile-driven experience**, where task creation, monitoring,
-memory management, and termination all happen directly from the phone.
+Unlike most agent platforms that rely on desktop-based orchestration,
+Instant is designed as a **fully mobile-driven experience**. Task
+creation, monitoring, context management, and termination all happen
+directly from the phone.
 
 ------------------------------------------------------------------------
 
 ## Core Features
 
--   AI-powered automation for Instagram, WhatsApp, and LinkedIn\
--   Context-aware replies using a persistent, editable memory store\
--   Handles both **text messages and media** (reels, posts, shared
-    content + comments)\
--   Clear separation of **personal and professional communication**\
--   Fully on-device context and log storage\
--   Manual launch and termination control\
--   Detailed summaries and execution logs after each run\
--   Logout and credential wipe at any time
+-   AI-powered automation for Instagram, WhatsApp, and LinkedIn
+-   Persistent **context memory** for personalized replies
+-   Handles **text messages, reels, posts, and shared media**, including
+    comment sentiment
+-   Clear distinction between **personal and professional
+    communication**
+-   Fully local storage of summaries, logs, and context
+-   Manual task launch and termination
+-   Detailed execution summaries after every run
+-   Execution logs for debugging and transparency
+-   Secure logout with credential wipe
 
 ------------------------------------------------------------------------
 
-## Context System
+## Context System (Key Differentiator)
 
 Instant includes a dedicated **Context tab** that stores a JSON-based
-memory of people you interact with.
+memory of people and conversations.
 
-Before every task: - Context is injected into the agent prompt
+Context may include: - Relationship type (personal / professional /
+business) - Tone preferences - Prior interactions - Notes discovered
+during conversations
 
-After every task: - The agent updates and refines the context - Saves it
-for future executions
+### How it works
 
-This enables personalized replies for friends, professional tone for
-recruiters, and consistent messaging for business use cases.
+Before each task: - Context JSON is injected into the agent prompt
+
+After each task: - The agent navigates back to Instant - Updates and
+refines the context - Saves it for future executions
+
+This enables: - Casual replies for friends - Professional tone for
+recruiters - Consistent messaging for businesses and customer support
+
+All context is **user-visible and editable**.
 
 ------------------------------------------------------------------------
 
 ## Automation Flow
 
-1.  User selects a platform and launches a task\
-2.  Instant builds a prompt with stored context\
-3.  Task is sent to the Mobilerun API\
-4.  Agent interacts with the target app:
-    -   Reads messages and media
+1.  User selects the target app (Instagram / WhatsApp / LinkedIn)
+2.  Instant builds a task prompt using:
+    -   Selected app workflow
+    -   Stored context JSON
+3.  Prompt is sent to the **Mobilerun API**
+4.  A mobile agent:
+    -   Opens the target app
+    -   Locates unread conversations
+    -   Reads text and media
     -   Analyzes sentiment and comments
-    -   Sends appropriate replies\
-5.  Agent returns to Instant, updates context, writes a summary, and
-    terminates
+    -   Sends appropriate replies
+5.  Agent returns to Instant and:
+    -   Updates context
+    -   Writes a detailed summary
+    -   Terminates execution
+
+Tasks can be cancelled at any time using the **Terminate** button.
 
 ------------------------------------------------------------------------
 
-## Screens
+## Screens Overview
 
--   **Home**: Launch/terminate tasks, live status, summaries\
--   **Logs**: Session history and execution details\
--   **Context**: Editable memory store and logout
+### Home
+
+-   App selector (Instagram / WhatsApp / LinkedIn)
+-   Launch and terminate controls
+-   Live task status and task ID
+-   Persistent summary output
+
+### Logs
+
+-   Session-level execution history
+-   Timestamps, app type, termination reason
+-   Clear logs option
+
+### Context
+
+-   Editable JSON context store
+-   Save, format, and clear actions
+-   Logout (clears API key and device ID)
 
 ------------------------------------------------------------------------
 
 ## Tech Stack
 
--   React Native\
--   Expo\
--   React Navigation\
--   AsyncStorage\
--   Mobilerun API\
--   DroidRun\
--   Expo Vector Icons\
--   EAS Build
+-   React Native
+-   Expo
+-   React Navigation (Bottom Tabs)
+-   Expo Vector Icons (Ionicons)
+-   AsyncStorage
+-   Mobilerun REST API
+-   DroidRun (Android UI automation engine)
+-   EAS Build (APK generation)
 
 ------------------------------------------------------------------------
 
-## Building APK
+## Project Structure (Relevant)
+
+    app/
+     └─ (tabs)/
+        ├─ instant.tsx   # Main automation logic
+        ├─ logs.tsx      # Execution logs
+        └─ context.tsx   # Context management
+
+------------------------------------------------------------------------
+
+## Setup Requirements
+
+Before running the app, ensure you have:
+
+-   Node.js (18+ recommended)
+-   Expo CLI
+-   EAS CLI
+-   An Expo account
+-   An Android device registered on Mobilerun
+-   A valid Mobilerun API key and Device ID
+
+------------------------------------------------------------------------
+
+## Installation
+
+Clone the repository and install dependencies:
 
 ``` bash
-npm install -g eas-cli
-eas login
-npx expo prebuild
-eas build -p android --profile apk
+npm install
+```
+
+or
+
+``` bash
+yarn install
 ```
 
 ------------------------------------------------------------------------
 
-## Challenges
+## Running Locally (Development)
 
--   Limited and evolving Mobilerun documentation\
--   Designing a fully mobile-driven agent workflow instead of
-    desktop-based control
+Start the Expo development server:
+
+``` bash
+npx expo start
+```
+
+Then: - Run on a physical Android device using Expo Go **or** - Run on
+an Android emulator
+
+> Note: Real automation requires a **Mobilerun-registered Android
+> device**.
 
 ------------------------------------------------------------------------
 
-## Security
+## First-Time App Setup
 
--   All data stored locally\
--   No background automation\
--   Credentials removable at any time
+On first launch, the app shows a **Setup screen**.
+
+You must enter: - Mobilerun API Key - Mobilerun Device ID
+
+These credentials are stored locally using AsyncStorage. The setup
+screen will not appear again unless credentials are cleared.
 
 ------------------------------------------------------------------------
 
-## Intended Use
+## Persistent Storage Keys
 
--   Personal inbox management\
--   Professional messaging\
+Instant uses the following AsyncStorage keys:
+
+-   `instant_summary` -- Live summaries and logs
+-   `instant_logs` -- Historical execution logs
+-   `context_json` -- Persistent conversation context
+-   `mobilerun_api_key` -- API key
+-   `mobilerun_device_id` -- Device ID
+
+------------------------------------------------------------------------
+
+## Building a Standalone APK (EAS)
+
+Install EAS CLI:
+
+``` bash
+npm install -g eas-cli
+eas login
+```
+
+Prebuild native code:
+
+``` bash
+npx expo prebuild
+```
+
+Configure `eas.json`:
+
+``` json
+{
+  "build": {
+    "apk": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  }
+}
+```
+
+Build APK:
+
+``` bash
+eas build -p android --profile apk
+```
+
+Download and install the APK on your Android device.
+
+------------------------------------------------------------------------
+
+## Challenges Faced
+
+-   **Limited and evolving Mobilerun documentation**, requiring
+    experimentation
+-   Adapting agent workflows to a **purely mobile-driven experience**
+-   Handling UI changes across third-party apps
+-   Ensuring safe and transparent context updates
+
+------------------------------------------------------------------------
+
+## Security Notes
+
+-   All data is stored locally on the device
+-   No background execution without user action
+-   Credentials can be wiped instantly via logout
+-   Do not commit real API keys to version control
+
+------------------------------------------------------------------------
+
+## Intended Use Cases
+
+-   Personal inbox cleanup
+-   Professional messaging and recruiter communication
+-   Social media engagement
 -   Business and customer support automation
+
+------------------------------------------------------------------------
