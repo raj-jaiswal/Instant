@@ -27,7 +27,7 @@ export default function MainScreen() {
         },
 
         tabBarItemStyle: {
-          borderRadius: 16,
+          borderRadius: 17,
         },
       }}
     >
