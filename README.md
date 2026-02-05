@@ -13,7 +13,7 @@ creation, monitoring, context management, and termination all happen
 directly from the phone.
 
 
-Downloadable APK: <a href='https://github.com/raj-jaiswal/Instant/releases/'>https://github.com/raj-jaiswal/Instant/releases/</a>
+Download from: <a href='https://github.com/raj-jaiswal/Instant/releases/'>https://github.com/raj-jaiswal/Instant/releases/</a>
 
 ------------------------------------------------------------------------
 
