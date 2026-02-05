@@ -12,6 +12,9 @@ Instant is designed as a **fully mobile-driven experience**. Task
 creation, monitoring, context management, and termination all happen
 directly from the phone.
 
+
+Downloadable APK: <a href='https://github.com/raj-jaiswal/Instant/releases/'>https://github.com/raj-jaiswal/Instant/releases/</a>
+
 ------------------------------------------------------------------------
 
 ## Core Features
